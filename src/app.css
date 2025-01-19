@@ -18,7 +18,7 @@ body {
 
 .header {
     font-family: "Syne mono", monospace;
-    font-size: clamp(4rem, 8vw, 12rem);  /* Dynamically adjusts font size between 4rem and 12rem, based on viewport */
+    font-size: clamp(3rem, 6rem, 8vw);
     font-style: italic;
     font-weight: 400;
     text-align: center; /* Center align the text */
