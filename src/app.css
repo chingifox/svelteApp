@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+
+:root[data-theme='dark'] {
+--themebg: #0e1011;
+--themefontcolor: #ffffff;
+}
+
+:root[data-theme='light'] {
+--themebg: #ffffff;
+--themefontcolor: #0e1011;
+}
+
+body {
+background-color: var(--themebg);
+color: var(--themefontcolor);
+transition: background-color 0.15s ease, color 0.15s ease; /* Smooth transition */
+}
+
+.header {
+font-size: clamp(3rem, 6rem, 8vw);
+font-family: "Syne Mono", monospace;
+font-style: italic;
+font-weight: 400;
+text-align: center;
+white-space: nowrap;
+overflow: hidden;
+margin: 0;
+padding: 1rem;
+}
+
+#theme-toggle-checkbox {
+position: fixed;
+bottom: 1.5rem;
+right: 1.5rem;
+z-index: 100;
+padding: 1rem;
+}

@@ -1,24 +1,22 @@
 <script>
-  let pageHeader = "Chingifox"
+  let pageHeader = "Chingifox";
+
+  const initialTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', initialTheme);
+  let isDarkTheme = initialTheme === 'dark';
+
+  const checkboxInput = () => {
+    const theme = isDarkTheme ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  };
 </script>
 
 <h1 class="header">{pageHeader}</h1>
 
-<style>
-
-  @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
-
-  .header {
-    font-size: clamp(3rem, 6rem, 8vw); /* Dynamically resize */
-    font-family: "Syne Mono", monospace; 
-    font-style: italic;
-    font-weight: 400;
-    text-align: center; /* Center align the text */
-    white-space: nowrap; /* Prevent the text from wrapping */
-    overflow: hidden; /* Hide overflow if text exceeds container */
-    @REM text-overflow: ellipsis; /* Show ellipsis if text is truncated */
-    margin: 0; /* Remove default margins */
-    padding: 1rem; /* Add some spacing */
-  }
-
-</style>
+<input 
+  id="theme-toggle-checkbox" 
+  type="checkbox"
+  bind:checked={isDarkTheme}
+  on:change={checkboxInput}
+/>
