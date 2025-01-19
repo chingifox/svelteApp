@@ -1,5 +1,5 @@
 <script>
-  let pageHeader = "Chingifox";
+  let pageHeader = "Chingifox.Talk";
 
   const initialTheme = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', initialTheme);
