@@ -20,3 +20,9 @@
   bind:checked={isDarkTheme}
   on:change={checkboxInput}
 />
+<input 
+  id="theme-toggle-checkbox" 
+  type="checkbox"
+  bind:checked={isDarkTheme}
+  on:change={checkboxInput}
+/>
