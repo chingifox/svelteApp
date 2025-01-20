@@ -8,12 +8,3 @@
   <LightSwitch />
 </main>
 
-<style>
-
-  main {
-    font-family: 'Syne Mono', monospace;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-</style>

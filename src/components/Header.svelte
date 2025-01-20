@@ -5,6 +5,8 @@
 <h1 class="header">{pageHeader}</h1>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+    
     .header {
         font-family: "Syne mono", monospace;
         font-size: clamp(3rem, 6rem, 8vw);
