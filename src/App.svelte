@@ -7,4 +7,3 @@
   <Header />
   <LightSwitch />
 </main>
-
