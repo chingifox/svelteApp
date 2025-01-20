@@ -1,28 +1,19 @@
 <script>
-  let pageHeader = "Chingifox.Talk";
-
-  const initialTheme = localStorage.getItem('theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', initialTheme);
-  let isDarkTheme = initialTheme === 'dark';
-
-  const checkboxInput = () => {
-    const theme = isDarkTheme ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  };
+  import Header from './components/Header.svelte';
+  import LightSwitch from './components/ThemeToggle.svelte';
 </script>
 
-<h1 class="header">{pageHeader}</h1>
+<main>
+  <Header />
+  <LightSwitch />
+</main>
 
-<input 
-  id="theme-toggle-checkbox" 
-  type="checkbox"
-  bind:checked={isDarkTheme}
-  on:change={checkboxInput}
-/>
-<input 
-  id="theme-toggle-checkbox" 
-  type="checkbox"
-  bind:checked={isDarkTheme}
-  on:change={checkboxInput}
-/>
+<style>
+
+  main {
+    font-family: 'Syne Mono', monospace;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+</style>
