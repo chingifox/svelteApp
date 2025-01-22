@@ -10,11 +10,14 @@
 --themefontcolor: #0e1011;
 }
 
-body {
-    margin: 1vw 20vw;
+body, * {
     background-color: var(--themebg);
     color: var(--themefontcolor);
-    transition: background-color 0.15s ease, color 0.15s ease; /* Smooth transition */
+    transition: background-color 0.15s ease, color 0.15s ease; 
+}
+
+body {
+    margin: 1vw 20vw;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.2rem;;
+    font-size: 1.2rem;
 }
