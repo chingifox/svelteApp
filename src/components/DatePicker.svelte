@@ -3,7 +3,7 @@
     import { writable } from 'svelte/store';
 
     let date = '1 January, 2025';
-    const datesArray = ["1 January, 2024", "3 January, 2024", "5 January, 2024", "6 January, 2024", "3 February, 2024", "4 February, 2024", "13 February, 2024", "22 February, 2024", "8 March, 2024", "16 March, 2024", "26 March, 2024", "3 April, 2025", "13 April, 2025", "15 April, 2025", "16 April, 2025", "13 May, 2025", "14 May, 2025", "8 October, 2025", "20 May, 2025", "22 May, 2025", "16 October, 2025", "26 October, 2025"];
+    const datesArray = ["1 January, 2024", "3 January, 2024", "5 January, 2024", "6 January, 2024","7 January, 2024", "9 January, 2024", "15 January, 2024", "16 January, 2024", "17 January, 2024", "18 January, 2024", "19 January, 2024", "20 January, 2024","3 February, 2024", "8 March, 2024", "16 March, 2024", "26 March, 2024", "3 April, 2025"];
 
     const parsedDates = datesArray.reduce((acc, dateStr) => {
         const parsedDate = parse(dateStr, 'd MMMM, yyyy', new Date()); // 'd MMMM, yyyy' is the format
@@ -21,7 +21,6 @@
 
     const years = Object.keys(parsedDates).sort(); 
     let currentYear = years[0];
-    let selectedDate = datesArray[0]; 
     const showSelector = writable(false);
 
     const toggleSelector = () => {
@@ -60,7 +59,7 @@
                 <div class="month">
                     <div class="month-header">{month}</div>
                     <div class="dates">
-                        {#each parsedDates[currentYear][month] as day}
+                           {#each parsedDates[currentYear][month] as day}
                             <button 
                                 class="date" 
                                 on:click={() => selectDate(`${day} ${month}, ${currentYear}`)} 
@@ -88,19 +87,15 @@
 
     .selected-date {
         font: inherit;
-        color: var(--themefontcolor);
-        background-color: var(--themebg);
         cursor: pointer;
         padding: 0.5rem;
         border: none;
-        transition: inherit;
     }
 
     .selector {
         position: relative;
         margin-top: 0.5rem; 
         padding: 0.5rem;
-        background-color: var(--themebg);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -111,25 +106,16 @@
 
     .year-display {
         display: flex;
-        justify-content: space-between; 
+        justify-content: space-evenly; 
         align-items: center;
         width: 100%;
-        font-size: 1.25em;
+        font-size: 3rem;
     }
 
     .arrow {
-        background-color: var(--themebg);
-        color: var(--themefontcolor);
+        border: none;
         cursor: pointer;
         padding: 0.25rem 0.5rem;
-    }
-
-    .arrow.left {
-        justify-self: flex-start; 
-    }
-
-    .arrow.right {
-        justify-self: flex-end; 
     }
 
     .year {
@@ -149,16 +135,16 @@
         display: flex;
         flex-direction: column; 
         align-items: center; 
-        padding: 0.5rem; 
-        background-color: var(--themebg); 
-        min-width: 100px; 
-        max-width: 120px; 
+        padding: 0.5rem 1rem; 
+        min-width: 100px;
+        max-width: 160px; 
     }
 
     .month-header {
-        font-size: larger;
+        font-size: 1.5rem;
         margin-bottom: 0.5rem; 
-        text-align: center; 
+        text-align: center;
+
     }
 
     .dates {
@@ -169,16 +155,16 @@
     }
 
     .date {
-        background-color: var(--themebg); 
-        color: var(--themefontcolor);
         cursor: pointer;
-        border: 1px solid var(--themefontcolor); 
-        border-radius: 4px; 
+        border: 0.1px dotted var(--themefontcolor); 
         padding: 0.25rem 0.5rem;
         font-size: larger; 
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 500;
     }
 
     .date:hover {
-        background-color: var(--themehover); 
+        background-color: var(--themefontcolor);
+        color: var(--themebg);
     }
 </style>

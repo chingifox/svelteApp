@@ -8,23 +8,22 @@
     @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
 
     .header {
-        font-family: "Syne mono", monospace;
-        font-size: clamp(3rem, 6rem, 8vw);
+        font-family: "Syne Mono", monospace; /* Chosen font */
+        font-size: clamp(2rem, 8vw, 6rem); /* Dynamically resize text */
         font-style: italic;
         font-weight: 400;
         text-align: center; /* Center align the text */
-        white-space: nowrap; /* Prevent text from wrapping */
-        overflow: visible; /* Ensure text isn't cut off */
-        margin: 0;
+        white-space: nowrap; /* Prevent text wrapping */
+        margin: 0 auto; /* Center the header container */
         padding: 1rem;
-        max-width: 100vw; /* Ensure the header fits within the viewport */
-        line-height: 1.2; /* Improve readability */
+        max-width: 100%; /* Ensure the header fits within the viewport */
+        overflow: hidden; /* Prevent content from spilling out */
+        line-height: 1.2; /* Adjust for readability */
+        display: flex; /* Flexbox for horizontal alignment */
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
+        height: fit-content; /* Allow height to adjust automatically */
     }
 
-    /* Responsive Adjustments (Mobile-first) */
-    @media (max-width: 768px) {
-        .header {
-            font-size: clamp(3rem, 10vw, 6rem); /* Smaller size for small devices */
-        }
-    }
+
 </style>
