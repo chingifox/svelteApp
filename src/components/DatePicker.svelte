@@ -1,39 +1,14 @@
 <script>
     import { parse, isValid } from 'date-fns';
     import { writable } from 'svelte/store';
+    import { requestDates } from '../utils/api.js'; 
+    import { onMount } from 'svelte'; 
 
+    let datesArray = [];
+    let parsedDates = { valid: {}, others: [] }; 
     let date = '1 January, 2025';
-    const datesArray = ["13 January, 2024", "11 January, 2024", "Invalid Date Example", "5 January, 2024", "6 January, 2024", "Some Other Text", "3 April, 2025"];
-
-    const parsedDates = datesArray.reduce(
-        (acc, dateStr) => {
-            const parsedDate = parse(dateStr, 'd MMMM, yyyy', new Date());
-            if (isValid(parsedDate)) {
-                const year = parsedDate.getFullYear();
-                const month = parsedDate.toLocaleString('default', { month: 'long' });
-                const day = parsedDate.getDate();
-
-                acc.valid[year] = acc.valid[year] || {};
-                acc.valid[year][month] = acc.valid[year][month] || [];
-                acc.valid[year][month].push(day);
-            } else {
-                acc.others.push(dateStr);
-            }
-            return acc;
-        },
-        { valid: {}, others: [] }
-    );
-
-    if (parsedDates.others.length > 0) {
-        parsedDates.valid["Others"] = {};
-        parsedDates.others.forEach((other) => {
-            parsedDates.valid["Others"][other] = null; // Invalid strings become keys with `null` values
-        });
-    }
-
-    const years = Object.keys(parsedDates.valid).sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : a - b));
-    let currentYear = years[0];
     const showSelector = writable(false);
+    let currentYear = null;  
 
     const toggleSelector = () => {
         showSelector.update((visible) => !visible);
@@ -45,10 +20,51 @@
     };
 
     const switchYear = (direction) => {
+        const years = Object.keys(parsedDates.valid).sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : a - b));
         const currentIndex = years.indexOf(currentYear);
         const nextIndex = Math.max(0, Math.min(years.length - 1, currentIndex + direction));
         currentYear = years[nextIndex];
     };
+
+    const initializeDateArray = async () => {
+        try {
+            datesArray = await requestDates();
+            parsedDates = datesArray.reduce(
+                (acc, dateStr) => {
+                    const parsedDate = parse(dateStr, 'd MMMM, yyyy', new Date());
+                    if (isValid(parsedDate)) {
+                        const year = parsedDate.getFullYear();
+                        const month = parsedDate.toLocaleString('default', { month: 'long' });
+                        const day = parsedDate.getDate();
+
+                        acc.valid[year] = acc.valid[year] || {};
+                        acc.valid[year][month] = acc.valid[year][month] || [];
+                        acc.valid[year][month].push(day);
+                    } else {
+                        acc.others.push(dateStr);
+                    }
+                    return acc;
+                },
+                { valid: {}, others: [] }
+            );
+
+            if (parsedDates.others.length > 0) {
+                parsedDates.valid["Others"] = {};
+                parsedDates.others.forEach((other) => {
+                    parsedDates.valid["Others"][other] = null; 
+                });
+            }
+
+            const years = Object.keys(parsedDates.valid).sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : a - b));
+            currentYear = years[0];
+        } catch (error) {
+            console.error("Error fetching dates:", error);
+        }
+    };
+
+    onMount(() => {
+        initializeDateArray();
+    });
 </script>
 
 <div class="datepicker-container">
