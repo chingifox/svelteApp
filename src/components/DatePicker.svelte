@@ -1,25 +1,37 @@
 <script>
-    import { parse } from 'date-fns'; 
+    import { parse, isValid } from 'date-fns';
     import { writable } from 'svelte/store';
 
     let date = '1 January, 2025';
-    const datesArray = ["1 January, 2024", "3 January, 2024", "5 January, 2024", "6 January, 2024","7 January, 2024", "9 January, 2024", "15 January, 2024", "16 January, 2024", "17 January, 2024", "18 January, 2024", "19 January, 2024", "20 January, 2024","3 February, 2024", "8 March, 2024", "16 March, 2024", "26 March, 2024", "3 April, 2025"];
+    const datesArray = ["13 January, 2024", "11 January, 2024", "Invalid Date Example", "5 January, 2024", "6 January, 2024", "Some Other Text", "3 April, 2025"];
 
-    const parsedDates = datesArray.reduce((acc, dateStr) => {
-        const parsedDate = parse(dateStr, 'd MMMM, yyyy', new Date()); // 'd MMMM, yyyy' is the format
+    const parsedDates = datesArray.reduce(
+        (acc, dateStr) => {
+            const parsedDate = parse(dateStr, 'd MMMM, yyyy', new Date());
+            if (isValid(parsedDate)) {
+                const year = parsedDate.getFullYear();
+                const month = parsedDate.toLocaleString('default', { month: 'long' });
+                const day = parsedDate.getDate();
 
-        const year = parsedDate.getFullYear();
-        const month = parsedDate.toLocaleString('default', { month: 'long' });
-        const day = parsedDate.getDate();
+                acc.valid[year] = acc.valid[year] || {};
+                acc.valid[year][month] = acc.valid[year][month] || [];
+                acc.valid[year][month].push(day);
+            } else {
+                acc.others.push(dateStr);
+            }
+            return acc;
+        },
+        { valid: {}, others: [] }
+    );
 
-        acc[year] = acc[year] || {};
-        acc[year][month] = acc[year][month] || [];
-        acc[year][month].push(day);
+    if (parsedDates.others.length > 0) {
+        parsedDates.valid["Others"] = {};
+        parsedDates.others.forEach((other) => {
+            parsedDates.valid["Others"][other] = null; // Invalid strings become keys with `null` values
+        });
+    }
 
-        return acc;
-    }, {});
-
-    const years = Object.keys(parsedDates).sort(); 
+    const years = Object.keys(parsedDates.valid).sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : a - b));
     let currentYear = years[0];
     const showSelector = writable(false);
 
@@ -55,26 +67,41 @@
         </div>
 
         <div class="month-display">
-            {#each Object.keys(parsedDates[currentYear]) as month}
-                <div class="month">
-                    <div class="month-header">{month}</div>
-                    <div class="dates">
-                           {#each parsedDates[currentYear][month] as day}
-                            <button 
-                                class="date" 
-                                on:click={() => selectDate(`${day} ${month}, ${currentYear}`)} 
-                                type="button"
+            <!-- Valid Dates -->
+            {#each Object.keys(parsedDates.valid[currentYear] || {}) as month}
+                {#if currentYear === "Others"}
+                    <!-- "Others" Section -->
+                    <div class="special-section-container">
+                        <button 
+                            class="invalid-month clickable" 
+                            on:click={() => selectDate(month)}
                             >
-                                {day}
-                            </button>
-                        {/each}
+                            {month}
+                        </button>
                     </div>
-                </div>
-                {/each}
+                {:else}
+                    <!-- Regular Valid Months -->
+                    <div class="month">
+                        <div class="month-header">{month}</div>
+                        {#if parsedDates.valid[currentYear][month].length > 0}
+                            <div class="dates">
+                                {#each parsedDates.valid[currentYear][month].sort((a, b) => a - b) as day}
+                                    <button 
+                                        class="date" 
+                                        on:click={() => selectDate(`${day} ${month}, ${currentYear}`)} 
+                                        type="button"
+                                    >
+                                        {day}
+                                    </button>
+                                {/each}
+                            </div>
+                        {/if}
+                    </div>
+                {/if}
+            {/each}
         </div>
     </div>
 {/if}
-
 
 <style>
     .datepicker-container {
@@ -115,7 +142,7 @@
     .arrow {
         border: none;
         cursor: pointer;
-        padding: 0.25rem 0.5rem;
+        padding: 1rem 1rem;
     }
 
     .year {
@@ -146,7 +173,31 @@
         text-align: center;
 
     }
+    
+    .special-section-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; 
+        width: 100%; 
+        padding: 0.5rem;
+    }
 
+    .invalid-month {
+        border: 1px dotted var(--themefontcolor);
+        background: transparent;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        font-size: larger;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .invalid-month:hover {
+        background-color: var(--themefontcolor);
+        color: var(--themebg);
+    }
     .dates {
         display: flex; 
         flex-wrap: wrap;

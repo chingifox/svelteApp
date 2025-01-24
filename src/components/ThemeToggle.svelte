@@ -37,22 +37,21 @@
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        transition: background-image 0.2s ease;
     }
 
     #theme-toggle-checkbox {
-        bottom: 2rem;  /* Enough space for larger screens */
-        right: 1.3rem;  /* Enough space for larger screens */
+        bottom: 2rem;  
+        right: 1.3rem; 
     }
 
-    @media (max-width: 768px) {  /* Apply styles for screens smaller than 768px (tablets and phones) */
+    @media (max-width: 768px) {  
         #theme-toggle-checkbox {
-            bottom: 1rem;  /* Less space on smaller screens */
-            right: 0.3rem;   /* Less space on smaller screens */
+            bottom: 1rem; 
+            right: 0.3rem; 
         }
     }
 
     #theme-toggle-checkbox:checked {
-        background-image: url('src/images/switchOff.png'); /* Image for checked state */
+        background-image: url('src/images/switchOff.png'); 
     }
 </style>
