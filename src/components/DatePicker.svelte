@@ -3,10 +3,12 @@
     import { writable } from 'svelte/store';
     import { requestDates } from '../utils/api.js'; 
     import { onMount } from 'svelte'; 
+    import { currentDate } from '../utils/stores.js';
+
 
     let datesArray = [];
     let parsedDates = { valid: {}, others: [] }; 
-    let date = '1 January, 2025';
+    currentDate.set('1 January, 2025');
     const showSelector = writable(false);
     let currentYear = null;  
 
@@ -15,8 +17,8 @@
     };
 
     const selectDate = (newDate) => {
-        date = newDate;
         showSelector.set(false);
+        currentDate.set(newDate);
     };
 
     const switchYear = (direction) => {
@@ -69,7 +71,7 @@
 
 <div class="datepicker-container">
     <button class="selected-date" on:click={toggleSelector} aria-expanded={$showSelector}>
-        {date}
+        {$currentDate}
     </button>
 </div>
 
