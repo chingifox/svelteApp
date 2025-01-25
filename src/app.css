@@ -12,6 +12,18 @@
 :root {
     --base-font-size: 16px;
 }
+
+html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    color-scheme: light dark;
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
 body, * {
     background-color: var(--themebg);
     color: var(--themefontcolor);
