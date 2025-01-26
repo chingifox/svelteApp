@@ -4,16 +4,13 @@
 
     $: $currentDate && fetchWriteup($currentDate);
 
-    let currentWriteup;
+    let currentWriteup = localStorage.getItem('lastReadWriteup') || "loading...";
 
     const fetchWriteup = async (date) => {
-        console.log(`Requesting writeup for: ${date}`);
         const rawWriteup = await requestWriteup(date);
-
-        // Replace line breaks with <br> tags
         currentWriteup = rawWriteup.replace(/\n/g, '<br>');
-        console.log(currentWriteup);
+        localStorage.setItem('lastReadWriteup', currentWriteup);
     };
 </script>
 
-<p>{@html currentWriteup}</p>
+<p class="writeup-container">{@html currentWriteup}</p>

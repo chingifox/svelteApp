@@ -8,9 +8,12 @@
 
     let datesArray = [];
     let parsedDates = { valid: {}, others: [] }; 
-    currentDate.set('1 January, 2025');
     const showSelector = writable(false);
     let currentYear = null;  
+
+    const lastSelectedDate = localStorage.getItem('lastSelectedDate') || '1 January, 2025';
+    currentDate.set(lastSelectedDate);
+
 
     const toggleSelector = () => {
         showSelector.update((visible) => !visible);
@@ -19,6 +22,7 @@
     const selectDate = (newDate) => {
         showSelector.set(false);
         currentDate.set(newDate);
+        localStorage.setItem('lastSelectedDate', newDate);
     };
 
     const switchYear = (direction) => {
