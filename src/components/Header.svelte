@@ -1,8 +1,10 @@
 <script>
-  let pageHeader = "Chingifox";
+  const pageHeader = "Chingifox";
+  export let blurStartRef; 
 </script>
 
 <h1 class="header">{pageHeader}</h1>
+<br id="blurstart" bind:this={blurStartRef}>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
@@ -18,7 +20,7 @@
         padding: 1rem;
         max-width: 100%; 
         overflow: hidden; 
-        line-height: 1.2;   
+        line-height: 1.2;
         display: flex; 
         justify-content: center;
         align-items: center; 
